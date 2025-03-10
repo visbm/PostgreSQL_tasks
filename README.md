@@ -1,2 +1,2 @@
-# PostgreSQ_taksk
+# PostgreSQL_tasks
 Домашние работы
