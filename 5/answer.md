@@ -1,43 +1,43 @@
-1) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres thai
+### 1) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres thai
  
        На 8 подключенияк 12к tpx
        еще првоерил на 2 потоках, у меня ВМ на двух ядрах, 16000 тпс
 
-2) /usr/lib/postgresql/17/bin/pgbench -c 100 -j 4 -T 10 -f ~/workload.sql -n -U postgres thai
+### 2) /usr/lib/postgresql/17/bin/pgbench -c 100 -j 4 -T 10 -f ~/workload.sql -n -U postgres thai
      
        на 100 коннектов 10.6 к
        хотя тут при 2 потоках 9к тпс
      
        c 100 худщая производительность, перегружаем базу   Самое большое время установки соеденений
        и важно еще заметить корреляцию между потоками и коннектами, например при 8 коннектов 4 потока показатели хуже
- 
-3) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres thai
+
+### 3) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres thai
       
          8 коннектов пг баунсер 16к тпс
 
-4) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 5432 -h localhost thai 
+### 4) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 5432 -h localhost thai 
    
          8 коннектов TCP 12k tpc
 
    Линукс сокеты быстрее, нет накладных расходов на сеть
 
-5) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 6432 -h 127.0.0.1 thai
+### 5) /usr/lib/postgresql/17/bin/pgbench -c 8 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 6432 -h 127.0.0.1 thai
 
          8 коннектов PgBouncer 9.7k tpc
 
          При 8 подключениях  PgBouncer проигрывает из-за своих накладных расходов
 
-6) /usr/lib/postgresql/17/bin/pgbench -c 900 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 5432 -h localhost thai
+### 6) /usr/lib/postgresql/17/bin/pgbench -c 900 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 5432 -h localhost thai
       
          0.6k tpc напрямую в базу при 900 коннекшенах
 
-7)  /usr/lib/postgresql/17/bin/pgbench -c 200 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 5432 -h localhost thai
+### 7)  /usr/lib/postgresql/17/bin/pgbench -c 200 -j 4 -T 10 -f ~/workload.sql -n -U postgres -p 5432 -h localhost thai
 
          5,5k tps через pgbounser при 900 коннекшенах
          
          Тут Видно что при большом количестве коннектов пгбаунсер выигрывает
 
-8) Провел тестирование в трех режимах, сначала с 1 запросом в workload.sql, затем 3 запроса
+### 8) Провел тестирование в трех режимах, сначала с 1 запросом в workload.sql, затем 3 запроса
  Тест был при 100 и 900 подключениях
 
 
@@ -65,10 +65,10 @@
             При 100 клиенах session держит подключения и другие клиенты не создают новое подключение, поэтому и самый быстрый вариант
             При 900 подключениях Transaction лучше так как он освобождает подключения, но не закрывает их как Statement. А Session немного
             проигрывает так как он не освобождает подключение. большинство соединений просто заняты, но не используются. 
-    
 
 
-9) UPD 22.03.2025  новый тест с усложненным бенчом(6 запросов в сумме, 3 селекта и 3 апдейта)  (#9)
+<a id="9"></a>
+### 9) UPD 22.03.2025  новый тест с усложненным бенчом(6 запросов в сумме, 3 селекта и 3 апдейта)  (#9)
 
    | default_pool_size | pool_mode   | Clients | Threads | Duration (s) | Failed (%) | Latency (ms) | TPS  |
    |-------------------|-------------|---------|---------|--------------|------------|--------------|------|
