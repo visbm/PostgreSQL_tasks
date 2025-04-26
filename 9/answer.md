@@ -1,5 +1,4 @@
-1) Создал таблицу и заполинил ее
-    create table all_place(id int, depart_date date, busstation text, svobodno int);
+1) Создал таблицу и заполнил ее
 ```
 create table all_place(id int, depart_date date, busstation text, svobodno int);
 
@@ -35,6 +34,7 @@ LIMIT 10;
 ```
 
 2) Создал триггеры
+На вставку и удаление изменяет количество свободных мест
 ```
 CREATE OR REPLACE FUNCTION change_free_places() RETURNS TRIGGER AS $$
     BEGIN
@@ -52,7 +52,9 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE TRIGGER change_free_places
     AFTER INSERT OR DELETE ON book.tickets
     FOR EACH ROW EXECUTE FUNCTION change_free_places();
-
+```
+На вставку,  BEFORE INSERT проверяет количество свободных мест, чтобы больше 0
+```
 CREATE OR REPLACE FUNCTION check_free_places() RETURNS TRIGGER AS $$
     BEGIN
         IF TG_OP = 'INSERT' THEN
