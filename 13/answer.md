@@ -12,8 +12,8 @@
    Плюс мало значений
 4)   ```  
      WITH tips_persent AS (
-        SELECT unique_key , tips, fare from taxi_trips
-   )
+        SELECT unique_key , tips, fare from taxi_trips)
+   
       SELECT payment_type, round(sum(cte.tips)/sum(cte.tips+cte.fare)*100) tips_persent, count(*)
       FROM taxi_trips
       Join tips_persent cte on taxi_trips.unique_key = cte.unique_key
@@ -23,14 +23,15 @@
     
 
 5) ``` 
-CREATE MATERIALIZED VIEW mv_tips_persent AS
-SELECT payment_type, round(sum(tips)/sum(tips+fare)*100) tips_persent, count(*) as cnt
-    FROM taxi_trips
-    group by payment_type ;
-
-SELECT * FROM mv_tips_persent
-         ORDER BY cnt DESC; 
-``` Можно сделать  MATERIALIZED VIEW и заранее подсчитать, запрос тогда будет выполняться за 153 ms 
+    CREATE MATERIALIZED VIEW mv_tips_persent AS
+    SELECT payment_type, round(sum(tips)/sum(tips+fare)*100) tips_persent, count(*) as cnt
+        FROM taxi_trips
+        group by payment_type ;
+    
+    SELECT * FROM mv_tips_persent
+             ORDER BY cnt DESC; 
+``` 
+    Можно сделать  MATERIALIZED VIEW и заранее подсчитать, запрос тогда будет выполняться за 153 ms 
  И сделть крон для обновления  VIEW
 
 6) ```
